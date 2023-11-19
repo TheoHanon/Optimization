@@ -41,7 +41,7 @@ def alpha(epsilon, gradF):
     return epsilon / np.linalg.norm(gradF)**2
 
 def sub_gradient_method(a, b, plot = False):
-    print("Method: Sub Gradient Method")
+    
     x = np.zeros((MAXITER, a.shape[1]))
     max_g = 0
     if plot: Fk = F(x[0], a, b) * np.ones(MAXITER)
@@ -63,8 +63,7 @@ def prox(y, alpha):
     return np.sign(y) * np.maximum(np.zeros_like(y), abs(y) - alpha)
 
 def proximal_gradient_method(a, b, plot = False):
-    print("Method: Proximal Gradient Method")
-
+    
     L = .25 * np.linalg.norm(sum(np.outer(ai, ai) for ai in a))
 
         
@@ -81,7 +80,7 @@ def proximal_gradient_method(a, b, plot = False):
 ### Accelerated proximal gradient method ###
 
 def accelerated_proximal_gradient_method(a, b, plot = False):
-    print("Method: Accelerated Proximal Gradient Method")
+    
     L = .25 * np.linalg.norm(sum(np.outer(ai, ai) for ai in a))
   
     x = np.zeros((MAXITER, a.shape[1]))

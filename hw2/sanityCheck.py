@@ -19,13 +19,9 @@ a_train, a_test, b_train, b_test = train_test_split(a, b, test_size = .20, rando
 
 sklearn_model = LogisticRegression(penalty='l1', solver='liblinear', C=1/LAMBDA, max_iter=500)
 
-# Fit the model on the training data
+
 sklearn_model.fit(a_train, b_train)
-
-# Predict labels for the test set
 b_pred_sklearn = sklearn_model.predict(a_test)
-
-# Calculate the accuracy for the scikit-learn model
 accuracy_sklearn = accuracy_score(b_test, b_pred_sklearn)
 
 
