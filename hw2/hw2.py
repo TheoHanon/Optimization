@@ -44,13 +44,16 @@ plt.show()
 ##----------------------PART II ----------------------##
 
 MIN = 58.86560070238883 # Empirically found
+M = 225 # Empirically found
+D_0 = 2.25 # Empirically found
+L = 2340 # Computed 
 
 plt.figure()
 func_val = accelerated_proximal_gradient_method(a, b, plot = True)
 
 
 plt.semilogy(k, func_val - MIN, label = f"Accelerated Proximal\nGradient Method", color = "tab:green")
-plt.semilogy(k, 2*(2.25)**2 *2350/(k+1)**2 , "--", label = r"$2L\frac{||x_0 - x^*||^2}{(k+1)^2}$", color = "red")
+plt.semilogy(k, 2*(D_0)**2 * L/(k+1)**2 , "--", label = r"$2L\frac{||x_0 - x^*||^2}{(k+1)^2}$", color = "red")
 plt.xlabel("Number of Iteration [k]")
 plt.ylabel(r"$min_{i=0,...,k}~~F\left(x_i\right) - F(x_*)$")
 plt.legend(shadow = True)
@@ -60,7 +63,7 @@ plt.show()
 plt.figure()
 func_val = proximal_gradient_method(a, b, plot = True)
 plt.semilogy(k, func_val - MIN, label = f"Proximal Gradient Method", color = "tab:orange")
-plt.semilogy(k, 1/2*(2.25)**2 * 2340/(k+1) , "--", label = r"$L\frac{||x_0 - x^*||^2}{2(k+1)}$", color = "red")
+plt.semilogy(k, 1/2*(D_0)**2 * L/(k+1) , "--", label = r"$L\frac{||x_0 - x^*||^2}{2(k+1)}$", color = "red")
 plt.xlabel("Number of Iteration [k]")
 plt.ylabel(r"$min_{i=0,...,k}~~F\left(x_i\right) - F(x_*)$")
 plt.legend(shadow = True)
@@ -71,7 +74,7 @@ plt.show()
 plt.figure()
 func_val = sub_gradient_method(a, b, plot = True)
 plt.semilogy(k, func_val - MIN, label = f"Sub Gradient Method", color = "tab:blue")
-plt.semilogy(k, 225*2.4 / np.sqrt(k+1), "--", label = r"$M\frac{||x_0 - x^*||}{(k+1)^{1/2}}$", color = "red")
+plt.semilogy(k, M*D_0 / np.sqrt(k+1), "--", label = r"$M\frac{||x_0 - x^*||}{(k+1)^{1/2}}$", color = "red")
 plt.xlabel("Number of Iteration [k]")
 plt.ylabel(r"$min_{i=0,...,k}~~F\left(x_i\right) - F(x_*)$")
 plt.legend(shadow = True)
