@@ -8,7 +8,7 @@ This project contains the implementation and evaluation of various gradient meth
 - `plot/`: Directory for storing generated plots and figures from the analysis.
 - `methods.py`: Contains the implementation of different gradient methods like sub-gradient, proximal gradient, and accelerated proximal gradient methods.
 - `sanityCheck.py`: Script to perform sanity checks on the methods implemented. Comparison with sklearn library.
-- `q4.py`: Script that executes the gradient methods on the Iris dataset and that creates the plot. (question 4 of the homework)
+- `q4.py`: Script that executes the gradient methods on the Iris dataset and that creates the plot. (Question 4 of the homework)
 - `q2.py`: Script that executes the gradient and the derivative free methods and plot the results 
 - `makefile`: A makefile to automate the execution of scripts.
 
