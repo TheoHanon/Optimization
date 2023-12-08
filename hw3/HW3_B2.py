@@ -47,10 +47,17 @@ def c_coeff(n, nA, nB, lambda_param):
 # Define the function to generate a starting point
 def initial_feasible_point(class_A, class_B):
 
-    h = np.array([1.0, 1.0])  # Random initial h
+    A = class_A.vectors
+    B = class_B.vectors 
+
+    ## Constructing a initial feasible point
+
+    h = np.ones(class_A.vectors.shape[1])  # Random initial h
     c = 0  # Initial guess for c
-    s = 1000*np.ones(class_A.vectors.shape[0])  # Initial s
-    t = 1000*np.ones(class_B.vectors.shape[0])  # Initial t
+    a_max = np.max(np.dot(A, h))
+    b_min = np.min(np.dot(B, h))
+    s = 10*a_max + np.ones(class_A.vectors.shape[0])  # Initial s
+    t = b_min / 10 + np.ones(class_B.vectors.shape[0])  # Initial t
     v = np.dot(h, h) + 1  # Initial v
 
 
