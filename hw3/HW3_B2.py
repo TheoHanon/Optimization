@@ -84,11 +84,19 @@ def init(class_A, class_B):
     mu = 5
 
     h, c, s, t, v = initial_feasible_point(class_A, class_B)
+    
     C = c_coeff(n, nA, nB, lambda_param)
     
     grad =  C/mu +  gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)   
-    step = newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C )
+    step = newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C)
 
+    ## Finding the best mu0
+
+    H = hessF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
+    d = np.linalg.solve(H, C)
+    dF = gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
+    mu = np.dot(-C, d) / (2 * np.dot(d, dF)) 
+    
     ite = 0
     while (delta(grad, step) > .25 and ite < 1000):
         
@@ -112,7 +120,14 @@ def optimize(h, c, s, t, v, class_A, class_B, lambda_param, nu, epsilon):
 
     tau = 1/4
     theta = 1/(16*np.sqrt(nu))
-    mu = 5
+
+    ## Finding the best mu0
+
+    H = hessF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
+    d = np.linalg.solve(H, C)
+    dF = gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
+
+    mu = np.dot(-C, d) / (2 * np.dot(d, dF)) 
     mu_final = epsilon * (1 - tau) / nu
 
     ite = 0
@@ -122,6 +137,8 @@ def optimize(h, c, s, t, v, class_A, class_B, lambda_param, nu, epsilon):
         step = newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C)
         h, s, t, c, v = uptade(h, s, t, c, v, step)
         ite += 1
+
+
     return h, c, s, t, v
 
 
@@ -143,8 +160,8 @@ def plot_data_and_separation_line(a_vectors, b_vectors, h, c):
 
 
 # Generate some example 2D data
-a_vectors = np.random.rand(10, 2) + .3# + np.array([1, 1])
-b_vectors = np.random.rand(10, 2)# + np.array([1, 5])
+a_vectors = np.random.rand(50, 2) + .2# + np.array([1, 1])
+b_vectors = np.random.rand(50, 2)# + np.array([1, 5])
 
 # Initialize class instances
 class_A = A(a_vectors)
