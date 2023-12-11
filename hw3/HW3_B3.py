@@ -49,7 +49,7 @@ h, c, s, t, v       = long_step_method(class_A, class_B, lambda_param, nu, epsil
 l = lambda x: np.dot(h, x) + c
 
 def classify(x):
-    return 0 if l(x) < 0 else 1
+    return 0 if l(x) <= -1 else 1
 
 
 y_pred = np.array([classify(im) for im in test_imgs])
@@ -57,8 +57,4 @@ test_labels = (test_labels > 0)*1.0
 print("Accuracy: ", accuracy_score(test_labels, y_pred))
 
 
-# print("h: ", h)
-# print("c: ", c)
-# # Plot the results
-# plot_data_and_separation_line(class_A.vectors, class_B.vectors, h, c)
 

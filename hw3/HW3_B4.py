@@ -45,11 +45,11 @@ def several_newton(h, c, s, t, v, class_A, class_B, mu, lambda_param, C):
     
         step = newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C)
         h, s, t, c, v = uptade(h, s, t, c, v, step)
-
-        grad = C/mu +  gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
+        H = hessF(h, s, t, c, v, n, nA, nB, A, B)
+        # grad = C/mu +  gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
 
         ite += 1
-        if (delta(grad, step) <=.25) :break
+        if (delta(H, step) <=.25) :break
         
         
     return h, s, t, c, v

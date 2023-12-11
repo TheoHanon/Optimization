@@ -8,7 +8,7 @@ from alive_progress import alive_bar
 
 
 
-delta = lambda x,n: np.sqrt(np.dot(x, -n))
+delta = lambda H,n: np.sqrt(np.dot(n, np.dot(H, n)))
 
 
 # Define classes A and B for storing vectors
@@ -79,7 +79,7 @@ def newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C):
     H = hessF(h, s, t, c, v, n, nA, nB, A, B)
 
     step = solve(H, -(gradBarrier + C/mu))
-    delta_mu = delta(gradBarrier + C/mu, step)
+    delta_mu = delta(H, step)
 
     return step if delta_mu < 1 else step/(delta_mu + 1)
 
@@ -106,7 +106,7 @@ def init(class_A, class_B):
     ite = 0
 
     with alive_bar(1000) as bar:
-        while (delta(grad, step) > .25 and ite < 1000):
+        while (delta(H, step) > .25 and ite < 1000):
             
             step = newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C)
             h, s, t, c, v = uptade(h, s, t, c, v, step)
