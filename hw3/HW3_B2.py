@@ -1,10 +1,13 @@
 # Re-import necessary libraries
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.linalg import solve
+# from scipy.linalg import solve
 from derivative import *
 from progress.bar import Bar
 from alive_progress import alive_bar
+from scipy.linalg import solve
+from numpy.linalg import lstsq
+from scipy.linalg import LinAlgWarning
 
 
 
@@ -19,10 +22,6 @@ class A:
 class B:
     def __init__(self, vectors):
         self.vectors = np.array(vectors)
-
-
-def functionObjective(s, t, v, lambda_param, nA, nB):
-    return lambda_param*v + 1/nA *  sum(s) + 1/nB * sum(t)
 
 
 def uptade(h, s, t, c, v, step):
@@ -77,10 +76,15 @@ def newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C):
 
     gradBarrier = gradF(h, s, t, c, v, n, nA, nB, A, B)
     H = hessF(h, s, t, c, v, n, nA, nB, A, B)
+    
 
-    step = solve(H, -(gradBarrier + C/mu))
-    delta_mu = delta(H, step)
-
+    try:
+        step = solve(H, -(gradBarrier + C/mu), assume_a='sym', overwrite_a=True, overwrite_b=True)
+        delta_mu = delta(H, step)
+    except:
+        step = np.zeros(n+nA+nB+2)
+        delta_mu = 0
+      
     return step if delta_mu < 1 else step/(delta_mu + 1)
 
 def init(class_A, class_B):
@@ -95,10 +99,10 @@ def init(class_A, class_B):
 
     ## Finding the best mu0
     H = hessF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
-    d = np.linalg.solve(H, C)
+    d = solve(H, C, assume_a='sym')
     dF = gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
 
-    mu = np.dot(-C, d) / (2*np.dot(d, dF))
+    mu = np.dot(-C, d) / (np.dot(d, dF))
     
     grad =  C/mu +  gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)   
     step = newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C)
@@ -118,52 +122,6 @@ def init(class_A, class_B):
     return h, c, s, t, v, mu
 
 
-# Define the function to perform the optimization
-def optimize(h, c, s, t, v, class_A, class_B, lambda_param, nu, epsilon):
 
-    nA, n = class_A.vectors.shape
-    nB = class_B.vectors.shape[0]
-
-    C = c_coeff(n, nA, nB, lambda_param)
-
-    tau = 1/4
-    theta = 1/(16*np.sqrt(nu))
-
-    ## Finding the best mu0
-
-    H = hessF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
-    d = np.linalg.solve(H, C)
-    dF = gradF(h, s, t, c, v, n, nA, nB, class_A.vectors, class_B.vectors)
-
-    mu = np.dot(-C, d) / (2 * np.dot(d, dF)) 
-    mu_final = epsilon * (1 - tau) / nu
-
-    ite = 0
-    with alive_bar(10000) as bar:
-        while mu > mu_final and ite < 10000:
-            mu *= (1 - theta)
-            step = newton_step(h, c, s, t, v, class_A, class_B, mu, lambda_param, C)
-            h, s, t, c, v = uptade(h, s, t, c, v, step)
-            ite += 1
-            bar()
-
-
-    return h, c, s, t, v
-
-
-
-# Define the function to plot data and separation line
-def plot_data_and_separation_line(a_vectors, b_vectors, h, c):
-    plt.scatter(a_vectors[:, 0], a_vectors[:, 1], color='blue', label='Class A')
-    plt.scatter(b_vectors[:, 0], b_vectors[:, 1], color='red', label='Class B')
-    x_values = np.linspace(0, 3, 100)
-    # print(x_values)
-    y_values = (-h[0] / h[1]) * x_values - c / h[1]
-    plt.plot(x_values, y_values, label='Separation Line')
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
-    plt.title('2D Data and Separation Line')
-    plt.legend()
-    plt.show()
 
 

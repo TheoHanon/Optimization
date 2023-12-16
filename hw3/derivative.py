@@ -1,8 +1,6 @@
 import numpy as np
 
 
-
-
 ### Function 
 def F(h, s, t, c, v, n, nA, nB, A, B):
     return - np.sum(np.log(s - 1 - c - np.dot(A, h))) \
