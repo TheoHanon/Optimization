@@ -148,19 +148,3 @@ def hessF(h, s, t, c, v, n, nA, nB, A, B):
 
     return hess
 
-
-
-
-# n = 2
-# nA = 1
-# nB = 1
-# A = np.zeros((nA, n))
-# B = np.zeros((nB, n))
-
-# h = np.ones(n)
-# s = 100*np.ones(nA)
-# t = 100*np.ones(nB)
-# c = 1
-# v = 1
-
-# print(hessF(h, s, t, c, v, n, nA, nB, A, B))
