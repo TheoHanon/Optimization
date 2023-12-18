@@ -16,4 +16,4 @@ You need to following packages:
 You can run the code in the notebook. As previously mention it follows the structure of the homework. We created separate cells for the implementation of and the results each question. 
 
 ### Warning
-Depending of the set of parameter two types of Warning can appear : `LinAlgWarning` and `RuntimeWarning`, we didn't shut them off in the console. However they do not impact the working of the code it just impacts the accuracy of the final results. They are caused by rounding error and bad conditionning. Finally note that we made our code robust to errors thus the algorithm always finishes but again the result might not be accurate. 
+Depending of the set of parameter two types of Warning can appear : `LinAlgWarning` and `RuntimeWarning`, we didn't shut them off in the console. However they do not impact the working of the code it just impacts the accuracy of the final results. They are caused by rounding errors and bad conditionning. Finally note that we made our code robust to errors thus the algorithm always finishes but again the result might not be accurate. 
