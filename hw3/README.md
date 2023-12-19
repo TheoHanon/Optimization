@@ -11,7 +11,10 @@ You need to following packages:
 * `sklearn`
 * `numpy`
 * `matplotlib`
-* `alive_progress` - A progress bar package with cool animations and real-time stats. More information and installation instructions can be found at [alive-progress PyPI page](https://pypi.org/project/alive-progress/).
+* `alive_progress` - A progress bar package with cool animations and real-time stats. 
+More information and installation instructions can be found at [alive-progress PyPI page](https://pypi.org/project/alive-progress/).
+
+You also need to put the training and testing set in the same directory, respectively named : `mnist_train.csv` and `mnist_test.csv`. 
 ### Run the code 
 You can run the code in the notebook. As previously mention it follows the structure of the homework. We created separate cells for the implementation of and the results each question. 
 
